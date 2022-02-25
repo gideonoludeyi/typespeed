@@ -1,5 +1,5 @@
 import { fromEvent } from 'rxjs';
-import { bufferCount, filter, map, scan, take } from 'rxjs/operators';
+import { bufferCount, filter, map, scan, takeWhile } from 'rxjs/operators';
 
 const NUM_OF_LATEST_WORDS = 8;
 
@@ -47,8 +47,8 @@ const wpm$ = timestamp$.pipe(
 
 countdownEl.innerText = `${NUM_OF_LATEST_WORDS}`;
 const countdown$ = timestamp$.pipe(
-    take(NUM_OF_LATEST_WORDS),
-    scan((acc, _) => acc - 1, NUM_OF_LATEST_WORDS)
+    scan((acc, _) => acc - 1, NUM_OF_LATEST_WORDS),
+    takeWhile((x) => x > 0)
 );
 
 wpm$.subscribe((wpm) => {
