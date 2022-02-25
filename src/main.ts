@@ -1,11 +1,11 @@
-import { concat, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import {
     bufferCount,
     filter,
     map,
     scan,
-    takeWhile,
     share,
+    takeWhile,
 } from 'rxjs/operators';
 
 const NUM_OF_LATEST_WORDS = 8;
