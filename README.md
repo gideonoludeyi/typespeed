@@ -1,6 +1,6 @@
 # Typespeed
 
-A webpage that analyzes your typing speed.
+A [application](https://gideonoludeyi.github.io/typespeed/) that analyzes your typing speed.
 
 ## Getting Started
 
