@@ -5,6 +5,13 @@ const NUM_OF_LATEST_WORDS = 8;
 
 const toMinute = (ms: number) => ms / 60_000; // milliseconds to minute
 
+function computeWordsPerMinute(timestamps: number[]) {
+    const min = Math.min(...timestamps);
+    const max = Math.max(...timestamps);
+    const diff = max - min;
+    return NUM_OF_LATEST_WORDS / toMinute(diff);
+}
+
 const $ = document.querySelector.bind(document);
 
 const typeAreaEl = $<HTMLTextAreaElement>('#type-area')!;
@@ -33,14 +40,9 @@ const wpm$ = timestamp$.pipe(
      */
     bufferCount(NUM_OF_LATEST_WORDS, 1),
     /**
-     * compute the range of the timestamps in the array
-     * {@link https://www.google.com/search?q=statistics+range&ei=1TAZYpO7JOGa_QbJ_JSIDg&ved=0ahUKEwjT-ZyLzpv2AhVhTd8KHUk-BeEQ4dUDCA4&uact=5&oq=statistics+range&gs_lcp=Cgdnd3Mtd2l6EAMyBAgAEEcyBAgAEEcyBAgAEEcyBAgAEEcyBAgAEEcyBAgAEEcyBAgAEEcyBAgAEEc6BwgAEEcQsAM6BwgAELADEENKBQgpEgExSgQIQRgASgUIQBIBMUoECEYYAFBYWFhgxAJoAXACeACAAQCIAQCSAQCYAQCgAQHIAQjAAQE&sclient=gws-wiz#wptab=s:H4sIAAAAAAAAAONgVuLQz9U3MCs3tHzEaMwt8PLHPWEprUlrTl5jVOHiCs7IL3fNK8ksqRQS42KDsnikuLjgmnh2MUm6ppQmJ5Zk5ucl5jjn5yWnFpS45RflluYkLmKVKkrMS09V0CguASooLslMLtZUSINIAgDe0cmyewAAAA}
+     * compute the words per minute based on the timestamps of the latest word entries
      */
-    map((nums) => Math.max(...nums) - Math.min(...nums)),
-    /**
-     * convert the difference in timestamps into words per minute, using the number of words typed (WORD_WINDOW_SIZE)
-     */
-    map((diffTimestamp) => NUM_OF_LATEST_WORDS / toMinute(diffTimestamp))
+    map(computeWordsPerMinute)
 );
 
 countdownEl.innerText = `${NUM_OF_LATEST_WORDS}`;
