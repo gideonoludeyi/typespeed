@@ -1,5 +1,12 @@
-import { fromEvent } from 'rxjs';
-import { bufferCount, filter, map, scan, takeWhile } from 'rxjs/operators';
+import { concat, fromEvent } from 'rxjs';
+import {
+    bufferCount,
+    filter,
+    map,
+    scan,
+    takeWhile,
+    share,
+} from 'rxjs/operators';
 
 const NUM_OF_LATEST_WORDS = 8;
 
@@ -31,7 +38,11 @@ const timestamp$ = fromEvent<InputEvent>(typeAreaEl, 'input').pipe(
     /**
      * extract, from each event object, the timestamp when the word was completed
      */
-    map((e) => e.timeStamp)
+    map((e) => e.timeStamp),
+    /**
+     * share the same observable for consistency between wpm$ and countdown$ observables
+     */
+    share()
 );
 
 const wpm$ = timestamp$.pipe(
