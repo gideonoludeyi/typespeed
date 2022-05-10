@@ -1,6 +1,6 @@
 # Typespeed
 
-A [application](https://gideonoludeyi.github.io/typespeed/) that analyzes your typing speed.
+An [application](https://gideonoludeyi.github.io/typespeed/) that analyzes your typing speed.
 
 ## Getting Started
 
